@@ -1,0 +1,359 @@
+using System;
+
+namespace Homework02
+{
+    class Program
+    {
+        /// <summary>
+        /// Количество игроков
+        /// </summary>
+        static sbyte numberOfplayers;
+        /// <summary>
+        /// Минимальное значение игрового поля
+        /// </summary>
+        static int minVal;
+        /// <summary>
+        /// Максимальное значение игрового поля
+        /// </summary>
+        static int maxVal;
+        /// <summary>
+        /// Значение игрового поля
+        /// </summary>
+        static int gameNumber;
+        /// <summary>
+        /// Минимальное значение шага игрока
+        /// </summary>
+        static int minuserTry;
+        /// <summary>
+        /// Максимальное значение шага игрока
+        /// </summary>
+        static int maxuserTry;
+        /// <summary>
+        /// Значение шага игрока
+        /// </summary>
+        static int userTry;
+        /// <summary>
+        /// Вспомогательная переменная для изменения ЧИСЛА
+        /// </summary>
+        static int res;
+        /// <summary>
+        /// Переменная для осуществления реванша
+        /// </summary>
+        static int revanch;
+
+        static void Main(string[] args)
+        {
+            for (; ; )
+            {
+                Console.WriteLine("/////////////////////");
+                Console.Write("  ИГРА НА ВЫЧИТАНИЕ \n ");       //Название игры
+                Console.WriteLine("/////////////////////");
+                Console.Write("Введите количество игроков \n 1 - с компьютером \n 2 - с другом \n 3..6 - с друзьями): ");
+                numberOfplayers = Convert.ToSByte(Console.ReadLine());
+                Console.WriteLine(" \n *ПРАВИЛА ИГРЫ*");        //Краткие правила игры
+                Console.WriteLine("Вводите значения шага в заданных пределах.");
+                Console.WriteLine("Следите за состоянием изменяемого ЧИСЛА.");
+                Console.WriteLine("Выигрывает тот, у кого ЧИСЛО сравняется с нулем.");
+                Console.WriteLine("---------------------------------------------");
+                Console.WriteLine("Нажмите Enter для продолжения");
+                Console.ReadKey();
+                Random rand = new Random();                     //Инициализация случайных чисел
+                //Проверка правильности ввода количества игроков и выбора уровня игры
+                //В игре присутствуют три уровня сложности: 1 - с компьютером, 2 - с другом, 3..6 - с друзьями
+                if (numberOfplayers == 0 || numberOfplayers < 0)
+                {
+                    for (; numberOfplayers == 0 || numberOfplayers < 0;)
+                    {
+                        Console.WriteLine("Количество игроков должно быть больше 0");
+                        Console.Write("Введите количество игроков \n 1 - с компьютером \n 2 - с другом \n 3..6 - с друзьями): ");
+                        numberOfplayers = Convert.ToSByte(Console.ReadLine());
+                    }
+                }
+                if (numberOfplayers > 6)                        //Проверка на максимальное количество игроков
+                {
+                    for (; numberOfplayers > 6;)
+                    {
+                        Console.WriteLine("Количество игроков должно быть меньше 6");
+                        Console.Write("Введите количество игроков \n 1 - с компьютером \n 2 - с другом \n 3..6 - с друзьями): ");
+                        numberOfplayers = Convert.ToSByte(Console.ReadLine());
+                    }
+                }
+                if (numberOfplayers == 1)                       //Игра с компьютером
+                {
+                    Console.Clear();
+                    Console.WriteLine("////////////////////////");
+                    Console.Write("  ИГРА С КОМПЬЮТЕРОМ \n ");
+                    Console.WriteLine("////////////////////////");
+                    //Ввод данных игры
+                    Console.Write(" Введите имя игрока: ");
+                    string name1 = Console.ReadLine();
+                    Console.WriteLine($" Имя компьютера: {Environment.MachineName}");
+                    string name2 = Environment.MachineName;
+                    //Проверка корректного ввода минимального значения игрового поля
+                    for (; ; )
+                    {
+                        Console.Write("Введите минимальное значение игрового поля, больше нуля: ");
+                        minVal = Convert.ToInt32(Console.ReadLine());
+                        if (minVal > 0)
+                        {
+                            break;
+                        }
+                        else Console.Write("Введите число больше нуля");
+                    }
+                    //Проверка корректного ввода максимального значения игрового поля
+                    for (; ; )
+                    {
+                        Console.Write("Введите максимальное значение игрового поля: ");
+                        maxVal = Convert.ToInt32(Console.ReadLine());
+                        if (maxVal > 0 & maxVal > minVal)
+                        {
+                            break;
+                        }
+                        else Console.Write($"Введите число больше 0 и {minVal} ");
+                    }
+                    //Проверка корректного ввода минимального значения хода игрока
+                    for (; ; )
+                    {
+                        Console.Write("Введите минимальное значение хода игрока, больше нуля: ");
+                        minuserTry = Convert.ToInt32(Console.ReadLine());
+                        if (minuserTry > 0)
+                        {
+                            break;
+                        }
+                        else Console.Write("Введите число больше нуля");
+                    }
+                    //Проверка корректного ввода максимального значения хода игрока
+                    for (; ; )
+                    {
+                        Console.Write("Введите размер максимального шага: ");
+                        maxuserTry = Convert.ToInt32(Console.ReadLine());
+                        if (maxuserTry > 0 & maxuserTry > minuserTry)
+                        {
+                            break;
+                        }
+                        else Console.Write("Введите число больше нуля");
+                    }
+                    gameNumber = rand.Next(minVal, maxVal);
+                    //Переменная для изменения имени игрока при переходе хода
+                    string n;
+                    //Счетчик для изменения имени игрока
+                    int i = 0;
+                    Console.WriteLine("----------------------------");
+                    //Цикл изменения значения ЧИСЛА (логика игры и соблюдение правил игры)
+                    for (; gameNumber != 0 & gameNumber > 0;)
+                    {
+                        Console.WriteLine($"ЧИСЛО: {gameNumber}");
+                        for (; ; )
+                        {
+                            if (i % 2 == 0)                                  //Ход игрока
+                            {
+                                n = name1;                                   //Если значение i четное, то ход игрока
+                                Console.Write($"Ход игрока -> {n}:   ");     //Ввод шага игроком
+                                userTry = Convert.ToInt32(Console.ReadLine());
+                                if (userTry >= minuserTry & userTry <= maxuserTry)
+                                {
+                                    res = gameNumber - userTry;
+                                    break;
+                                }
+                                else Console.Write($"Введите шаг от {minuserTry} до {maxuserTry}.");
+                            }
+                            else                                             //Ход компьютера
+                            {
+                                if (gameNumber >= minuserTry & gameNumber <= maxuserTry)
+                                {
+                                    userTry = gameNumber;                    //Шаг компьютера при значении ЧИСЛА меньшем заданного макс.шага в игре
+                                }
+                                else userTry = rand.Next(minuserTry, maxuserTry); 
+                                n = name2;                                    //Иначе значение i нечетное, то ход компьютера                                
+                                Console.Write($"Ход игрока -> {n}: {userTry} \n");
+                                if (userTry >= minuserTry & userTry <= maxuserTry)
+                                {                                    
+                                    res = gameNumber - userTry;
+                                    break;
+                                }
+                            }
+
+                        }
+                        i++;
+                        if (res < 0)
+                        {
+                            Console.WriteLine("Переход хода");
+                        }
+                        else if (res == 0)
+                        {
+                            Console.WriteLine($"\n******************************\n ПОБЕДА ИГРОКА: {n} \n******************************\n");
+                            break;
+                        }
+                        else gameNumber = res;
+                        Console.WriteLine("-----------");
+                    }
+                }
+                if (numberOfplayers == 2)                                     //Игра с другом на заданных условиях
+                {
+                    Console.Clear();
+                    Console.WriteLine("///////////////////");
+                    Console.Write("  ИГРА С ДРУГОМ \n");
+                    Console.WriteLine("///////////////////");                 //Ввод имени первого игрока
+                    Console.Write(" Имя первого игрока: ");
+                    string name1 = Console.ReadLine();                        //Ввод имени второго игрока
+                    Console.Write(" Имя второго игрока: ");
+                    string name2 = Console.ReadLine();                        //Создание начального случайного ЧИСЛА с которого будет начинаться игра
+                    gameNumber = rand.Next(12, 121);
+                    minuserTry = 1;                                           //Минимальное значение шага
+                    maxuserTry = 4;                                           //Максимальное значение шага
+                    string n;                                                 //Переменная для изменения имени игрока при переходе хода
+                    int i = 0;                                                //Счетчик для изменения имени игрока
+                    Console.WriteLine("----------------------------");
+                    //Цикл изменения значения ЧИСЛА (логика игры и соблюдение правил игры)
+                    for (; gameNumber != 0 & gameNumber > 0;)
+                    {
+                        if (i % 2 == 0)
+                        {
+                            n = name1;                                         //Если значение i четное, то ход первого игрока
+                        }
+                        else
+                        {
+                            n = name2;                                         //Если значение i нечетное, то ход второго игрока
+                        }
+                        i++;                                                   //Изменение счетчика на еденицу
+                        Console.WriteLine($"ЧИСЛО: {gameNumber}");
+                        Console.Write($"Ход игрока -> {n}:   ");
+                        for (; ; )
+                        {
+                            userTry = Convert.ToInt32(Console.ReadLine());
+                            if (userTry >= minuserTry & userTry <= maxuserTry)
+                            {
+                                res = gameNumber - userTry;
+                                break;
+                            }
+                            else Console.Write($"Введите шаг от {minuserTry} до {maxuserTry}: ");
+                        }
+                        if (res < 0)
+                        {
+                            Console.WriteLine("Ошибка. Повторите шаг еще раз.");
+                            gameNumber = res + userTry;                       //Возврат значения ЧИСЛА
+                            i = i - 1;                                        //Уменьшение счетчика на единицу, чтобы имя не менялось
+                        }
+                        else if (res == 0)
+                        {
+                            Console.WriteLine($"\n * *****************************\n ПОБЕДА ИГРОКА: {n} \n * *****************************\n");
+                            break;
+                        }
+                        else if(res > 0) gameNumber = res;
+                        Console.WriteLine("-----------");                      
+                    }
+                }
+                if (numberOfplayers > 2 & numberOfplayers <= 6)                //Многопользовательская игра
+                {
+                    Console.Clear();
+                    Console.WriteLine("///////////////////////////");
+                    Console.Write(" МНОГОПОЛЬЗОВАТЕЛЬСКАЯ ИГРА \n");
+                    Console.WriteLine("///////////////////////////");
+                    Console.WriteLine("Введите имена игроков"); 
+                    //Массив для хранения имен игроков
+                    string[] names = new string[numberOfplayers];
+                    //Переменная для количества игроков
+                    int i = 0;
+                    //Ввод имен игроков
+                    for (i = 0; i < numberOfplayers; i++)
+                    {
+                        Console.Write($"Введите имя {i + 1}-го игрока: ");
+                        names[i] = Console.ReadLine();
+                    }                    
+                    //Проверка корректного ввода минимального значения игрового поля
+                    for (; ; )
+                    {
+                        Console.Write("Введите минимальное значение игрового поля, больше нуля: ");
+                        minVal = Convert.ToInt32(Console.ReadLine());
+                        if (minVal > 0)
+                        {
+                            break;
+                        }
+                        else Console.Write("Введите число больше нуля");
+                    }
+                    //Проверка корректного ввода максимального значения игрового поля
+                    for (; ; )
+                    {
+                        Console.Write("Введите максимальное значение игрового поля: ");
+                        maxVal = Convert.ToInt32(Console.ReadLine());
+                        if (maxVal > 0 & maxVal > minVal)
+                        {
+                            break;
+                        }
+                        else Console.Write($"Введите число больше 0 и {minVal} ");
+                    }
+                    //Проверка корректного ввода минимального значения хода игрока
+                    for (; ; )
+                    {
+                        Console.Write("Введите минимальное значение хода игрока, больше нуля: ");
+                        minuserTry = Convert.ToInt32(Console.ReadLine());
+                        if (minuserTry > 0)
+                        {
+                            break;
+                        }
+                        else Console.Write("Введите число больше нуля");
+                    }
+                    //Проверка корректного ввода максимального значения хода игрока
+                    for (; ; )
+                    {
+                        Console.Write("Введите размер максимального шага: ");
+                        maxuserTry = Convert.ToInt32(Console.ReadLine());
+                        if (maxuserTry > 0 & maxuserTry > minuserTry)
+                        {
+                            break;
+                        }
+                        else Console.Write("Введите число больше нуля");
+                    }
+                    gameNumber = rand.Next(minVal, maxVal);
+                    int j = 0;                                                //Переменная j для перебора имен по порядку из массива имен
+                    for (; gameNumber != 0 & gameNumber > 0;)
+                    {
+                        for (; ; )
+                        {                                
+                            Console.WriteLine($"ЧИСЛО: {gameNumber}");
+                            if (j > 2) j = 0;                                 //Если переменная j превысит количество элементов в 
+                            Console.Write($"Ход игрока: {names[j]} -> ");     //массиве, то обнулить и начать с начала                           
+                            userTry = Convert.ToInt32(Console.ReadLine());
+                            if (userTry >= minuserTry & userTry <= maxuserTry)
+                            {
+                                res = gameNumber - userTry;                                
+                                j++;
+                                break;
+                            }
+                            else Console.WriteLine($"Введите целое чиcло в промежутке от {minuserTry} до {maxuserTry}");
+                        }
+                            if (res < 0)
+                            {
+                                Console.WriteLine("Переход хода");
+                            }
+                            else if (res == 0)
+                            {
+                                Console.WriteLine($"\n * *****************************\n ПОБЕДА ИГРОКА: {j} \n * *****************************\n");
+                                break;
+                            }
+                            else gameNumber = res;
+                            Console.WriteLine("-----------------");                            
+                    }                    
+                }
+                //Условия реванша
+                if (res == 0)
+                {
+                    Console.WriteLine("Хотите реванш, нажмите - 1 \n Выход из игры, нажмите - 2 ");
+                    for (; ; )
+                    {
+                        revanch = Convert.ToInt32(Console.ReadLine());
+                        switch (revanch)
+                        {
+                            case 1:
+                                Console.Clear();
+                                break;
+                            case 2:
+                                return;                            
+                        }
+                        break;
+                    }
+                }                
+            }
+        }
+    }
+}
