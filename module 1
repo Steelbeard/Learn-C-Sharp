@@ -1,0 +1,157 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Homework01
+{
+    class Program
+    {
+        /// <summary>
+        /// Имя человека
+        /// </summary>
+        public static string firstName;
+
+        /// <summary>
+        /// Возраст человека
+        /// </summary>
+        public static sbyte age;
+
+        /// <summary>
+        /// Рост человека
+        /// </summary>
+        public static uint growth;
+
+        /// <summary>
+        /// Балл по Истории
+        /// </summary>
+        public static double HistoryBall;
+
+        /// <summary>
+        /// Балл по Математике
+        /// </summary>
+        public static double MathBall;
+
+        /// <summary>
+        /// Балл по Русскому языку
+        /// </summary>
+        public static double RusBall;
+
+        static void Main(string[] args)
+        {
+            //Заголовок консольного окна
+            Console.Title = "ЗАПИСНАЯ КНИЖКА";
+            
+            //Новая позиция курсора
+            Console.SetCursorPosition(10, 5);
+            //Вопрос: Как Вас зовут?
+            Console.Write("Как Вас зовут?     ");
+            firstName = Convert.ToString(Console.ReadLine());
+            
+            //Новая позиция курсора
+            Console.SetCursorPosition(10, 6);
+            //Вопрос:Сколько Вам лет?
+            Console.Write("Сколько Вам лет?   ");
+            age = Convert.ToSByte(Console.ReadLine());
+            
+            //Новая позиция курсора
+            Console.SetCursorPosition(10, 7);
+            //Вопрос:Какой у Вас рост?
+            Console.Write("Какой у Вас рост?  ");
+            growth = Convert.ToUInt32(Console.ReadLine());
+
+            //Диапазон вводимых значений
+            Console.ForegroundColor = ConsoleColor.Red; //Цвет текста
+            Console.SetCursorPosition(1, 9);
+            Console.WriteLine(" ВНИМАНИЕ!!! Вводить можно целые числа и вещественные через запятую #,## ");
+            
+            Console.ForegroundColor = ConsoleColor.White; //Цвет текста
+
+            Console.SetCursorPosition(10, 11);
+            //Ввод балла по Истории
+            Console.Write("Введите балл по Истории?         ");
+            HistoryBall = Convert.ToDouble(Console.ReadLine());
+
+            Console.SetCursorPosition(10, 12);
+            //Ввод балла по Математике
+            Console.Write("Введите балл по Математике?      ");
+            MathBall = Convert.ToDouble(Console.ReadLine());
+
+            Console.SetCursorPosition(10, 13);
+            //Ввод балла по Русскому языку
+            Console.Write("Введите балл по Русскому языку?  ");
+            RusBall = Convert.ToDouble(Console.ReadLine());
+
+            //Расчет среднего балла
+            double avrBall = (HistoryBall + MathBall + RusBall) / 3;
+
+            //Очистка консоли
+            Console.Clear();
+            
+            //Расчет середины консоли по  ширине
+            var W = Console.WindowWidth;
+            var P = W / 2;
+            //Расчет середины консоли по высоте за минусом половины строк вывода
+            var H = Console.WindowHeight;
+            var F = H / 2 - 4;
+
+            //Печать пустых строк (ну ни как без цикла)
+            for(int i = 0; i < F; i++)
+            {
+                Console.WriteLine();
+            }
+
+            //Обычный вывод (конкантенация)
+            Console.ForegroundColor = ConsoleColor.Blue; //Цвет текста
+            string zag1 = " 1. ОБЫЧНЫЙ ВЫВОД \n";
+            
+            //Длина первой строки (заголовка)
+            var L1 = zag1.Length/2;
+            var Sr1 = P + L1;
+            Console.WriteLine("{0," + Sr1 + "}", zag1);
+            
+            //Вывод данных пользователя
+            string per1 = " " + firstName + " " + age + " " + growth + "cm \n";
+            Console.WriteLine("{0," + Sr1 + "}", per1);
+            
+            //Вывод данных о предметах обучения
+            string ball11 = " Балл по Истории - " + HistoryBall;  
+            Console.WriteLine("{0," + Sr1 + "}", ball11);
+            string ball12 = "    Балл по Математике - " + MathBall;
+            Console.WriteLine("{0," + Sr1 + "}", ball12);
+            string ball13 = "        Балл по Русскому языку - " + RusBall;
+            Console.WriteLine("{0," + Sr1 + "}", ball13);
+            
+            //Перевод среднего балла на точностью до сотых
+            string avrBallformat = " Средний балл: " + avrBall.ToString("#.##");
+            
+            //Вывод среднего балла
+            Console.WriteLine("{0," + Sr1 + "}", avrBallformat);
+            Console.ReadKey();
+            Console.Clear();
+
+            //Форматированный вывод
+            Console.ForegroundColor = ConsoleColor.Magenta; //Цвет текста
+            Console.WriteLine(" 2. ФОРМАТИРОВАННЫЙ ВЫВОД \n");
+            Console.WriteLine(" Имя:    {0} \n Возраст:{1} \n Рост:   {2}\n", firstName, age, growth);            
+            string pattern = " Балл по Истории:{0} \n Балл по Математике:{1} \n Балл по Русскому языку:{2}";
+            Console.WriteLine(pattern,
+                              HistoryBall,
+                              MathBall,
+                              RusBall);
+            Console.WriteLine(avrBallformat);
+            Console.ReadKey();
+            Console.Clear();
+
+            //Интерполяция строк
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine(" 3. ИНТЕРПОЛЯЦИЯ СТРОК \n");
+            Console.WriteLine($" Имя: {firstName,15} \n Возраст: {age,11} \n Рост: {growth,14} \n");
+            Console.WriteLine($" Балл по Истории: {HistoryBall,9} \n Балл по Математике: {MathBall,6} \n " +
+                              $"Балл по Русскому языку: {RusBall,2} \n {avrBallformat,15}");
+            Console.ReadKey();
+            Console.Clear();
+        }
+    }
+}
